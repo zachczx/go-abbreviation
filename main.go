@@ -42,8 +42,11 @@ func main() {
 	r.Get("/search", core.ShowListDb)
 	r.Get("/all/", core.ShowListDbAlphabets)
 	r.Get("/{alphabet}", core.ShowListDbFilterAlphabets)
-	// r.Post("/list/filter/keyword", core.ShowListDbFilter)
-	// r.Post("/list/filter/alphabet", core.ShowListDbFilterAlphabets)
+	r.Get("/list/{alphabet}", func(w http.ResponseWriter, r *http.Request) {
+		// Previously used route - /list/{alphabet}, setting redirect to catch those
+		param := chi.URLParam(r, "alphabet")
+		http.Redirect(w, r, "/"+param, http.StatusMovedPermanently)
+	})
 	r.Get("/syncjsontodb", core.SyncJsonToDb)
 	r.Get("/test", core.Test)
 
