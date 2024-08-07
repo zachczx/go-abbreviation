@@ -36,7 +36,6 @@ templ ListAll(title string, abv []models.AbvDb, count string, keyword string) {
             </section>
           </div>
         </main>
-
         <script>
           let alphabetsSelected
         </script>
@@ -122,7 +121,7 @@ templ Alphabets() {
 
 templ Loader() {
   <div class="loader min-h-96 border-t border-t-gray-300 flex justify-center items-center"> <!-- absolute properties in css file -->
-    <span class="loading loading-lg text-primary"></span>
-    <!-- <span class="loader-img"></span> -->
+    <!-- <span class="loading loading-lg text-primary"></span> -->
+    <span class="loader-img"></span>
   </div>
 }
