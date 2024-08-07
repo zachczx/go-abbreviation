@@ -1,0 +1,19 @@
+name: go-abbreviation
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    restart: unless-stopped
+    #    environment:
+    #      - LISTEN_ADDR: ${LISTEN_ADDR}
+    env_file:
+      - .env
+
+volumes: {}
+networks: {}
+configs: {}
+secrets: {}

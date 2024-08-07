@@ -1,0 +1,43 @@
+package templates
+
+templ MainPage(title string) {
+
+  @Layout(title) {
+  <main class="grid h-full content-center justify-items-center">
+    <section class="w-11/12 space-y-10 rounded-3xl border border-gray-200 bg-gray-50/50 p-4 backdrop-blur-md md:max-w-[60rem] lg:p-10 md:shadow-lg">
+      <div>
+        @Logo()
+        <p class="lg:text-xl">Search public sector acronyms</p>
+      </div>
+      <div>
+        <form method="get" action="/search">
+          <label class="relative min-w-44">
+            <input type="text" placeholder="Type a keyword to search" id="search" name="q" class="input input-bordered input-primary h-10 w-full rounded-full lg:h-16 lg:text-xl" />
+            <button id="search-button" class="absolute bottom-0 right-[0.5rem] top-0 my-auto  rounded-full h-7 w-7 lg:w-12 lg:h-12 flex justify-center hover:saturate-50 items-center bg-primary">
+              <svg id="tabler:arrow-big-right-filled" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 lg:w-6 lg:h-6 fill-base-100" viewBox="0 0 24 24"><path d="M12.089 3.634A2 2 0 0 0 11 5.414L10.999 8H4a2 2 0 0 0-2 2v4l.005.15A2 2 0 0 0 4 16l6.999-.001l.001 2.587A2 2 0 0 0 14.414 20L21 13.414a2 2 0 0 0 0-2.828L14.414 4a2 2 0 0 0-2.18-.434z"/></svg>
+            </button>
+          </label>
+        </form>
+      </div>
+    </section>
+  </main>
+  }
+  <script>
+    const searchInput = document.getElementById('search')
+    window.onload = () => {
+      searchInput.focus()
+    }
+
+    const searchButton = document.getElementById('search-button')
+    searchButton.addEventListener('click', (evt) => {
+      console.log(evt, evt.target)
+      searchButton.innerHTML = '<span class="loading loading-dots lg:loading-md loading-xs text-base-100"></span>'
+    })
+    searchInput.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Enter') {
+        searchButton.innerHTML = '<span class="loading loading-dots lg:loading-md loading-xs text-base-100"></span>'
+      }
+    })
+  </script>
+}
+

@@ -1,0 +1,11 @@
+*templ.go
+*templ.txt
+static/css/tailwind.css
+node_modules/
+bin/
+.env
+.vscode
+tmp/
+handlers/
+*.old
+abbreviations-fresh.db

@@ -1,0 +1,17 @@
+name: go-abbreviation
+
+############################
+# I need to split docker-compose into 2, because profiles: is buggy.
+# Coolify wouldn't complete deployment and just continues even though container is up.
+############################
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    restart: unless-stopped
+    environment:
+      LISTEN_ADDR: ${LISTEN_ADDR}
