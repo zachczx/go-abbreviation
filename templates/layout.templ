@@ -22,10 +22,10 @@ templ Layout(title string, children ...templ.Component) {
       <footer class="z-50 text-center text-sm justify-self-center overflow-x-hidden w-full bg-primary/70 backdrop-blur text-base-100 p-2">
         <p>Copyright © 2024 Zixian Chen. All rights reserved.</p>
         <div>
-          <a href="https://zixianchen.com" class="underline">Portfolio</a> | <a href="https://zixianchen.com/contact/" class="underline">Feedback</a> | <button id="credit-modal" class="underline" onclick="credit_modal.showModal()">Credits</button>
+          <a href="https://zixianchen.com" class="underline">Portfolio</a> | <a href="https://zixianchen.com/contact/" class="underline">Feedback</a> | <button id="credit-modal" class="underline" onclick="credit_modal.showModal()">Credits</button> | <button onclick="help_modal.showModal()" class="underline">Help!</button>
         </div>
       </footer>
-      @CreditModal()
+      @Modals()
     </body>
   </html>
 }
@@ -36,7 +36,7 @@ templ Logo() {
   </h1>
 }
 
-templ CreditModal() {
+templ Modals() {
   <dialog id="credit_modal" class="modal">
     <div class="modal-box">
       <h2 class="text-4xl pb-6 font-bold text-primary">Credits</h2>
@@ -45,6 +45,19 @@ templ CreditModal() {
       <p class="py-2">Thanks to Chun Kiat, SPD, Poh Fuan for suggesting acronyms to add.</p>
       <p class="py-2">People illustrations by <a href="https://storyset.com/people" class="underline">Storyset</a>.</p>
       <p class="py-2">CSS loader from <a href="https://css-loaders.com/shapes/" class="underline">CSS Loaders</a>.</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="help_modal" class="modal">
+    <div class="modal-box">
+      <h2 class="text-4xl pb-6 font-bold text-primary">Help!</h2>
+      <h3 class="text-3xl font-bold py-2">Q: "View All" section doesn't load new results.</h3>
+      <p class="py-2">If the "All" menu doesn't load, <a href="/all/" class="underline">click here to view all the entire list</a> of abbreviations without pages/loading.</p><p>It's a long list, so you might to wait for the list to load.</p>
       <div class="modal-action">
         <form method="dialog">
           <button class="btn">Close</button>

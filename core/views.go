@@ -79,6 +79,23 @@ func ShowListDbAlphabets(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func ShowListDbPagination(w http.ResponseWriter, r *http.Request) {
+	var p string = chi.URLParam(r, "p")
+	id, err := strconv.Atoi(p)
+	if err != nil {
+		fmt.Println(err)
+	}
+	res := DbRetrieveAll(id)
+	count := id * 50
+	fmt.Println(count)
+	var nextPage string = strconv.Itoa(id + 1)
+	if r.Header.Get("Hx-Request") == "true" && id > 1 {
+		TemplRender(w, r, templates.ListDbAllPartial(res, strconv.Itoa(count), nextPage))
+	} else {
+		TemplRender(w, r, templates.ListDbAll("Abbreviations", res, strconv.Itoa(len(res)), nextPage))
+	}
+}
+
 func ShowListDbFilterAlphabets(w http.ResponseWriter, r *http.Request) {
 	// err := r.ParseForm()
 	// if err != nil {
@@ -98,7 +115,9 @@ func ShowListDbFilterAlphabets(w http.ResponseWriter, r *http.Request) {
 
 func SyncJsonToDb(w http.ResponseWriter, r *http.Request) {
 	// Function to populate using json, I find it easier to work with
-	// DbPopulateFromJson()
+	msg := DbPopulateFromJson()
+	return
+	TemplRender(w, r, templates.DbPopulateFromJsonTemplate(msg))
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {

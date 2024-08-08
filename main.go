@@ -40,8 +40,12 @@ func main() {
 		core.TemplRender(w, r, templates.CheckDuplicate("Check Duplicates", abv))
 	})
 	r.Get("/search", core.ShowListDb)
-	r.Get("/all/", core.ShowListDbAlphabets)
+	r.Get("/all", core.ShowListDb)
+	r.Get("/all/", core.ShowListDb)
+	r.Get("/all/{p}", core.ShowListDbPagination)
+	r.Get("/all/{p}/", core.ShowListDbPagination)
 	r.Get("/{alphabet}", core.ShowListDbFilterAlphabets)
+	r.Get("/{alphabet}/", core.ShowListDbFilterAlphabets)
 	r.Get("/list/{alphabet}", func(w http.ResponseWriter, r *http.Request) {
 		// Previously used route - /list/{alphabet}, setting redirect to catch those
 		param := chi.URLParam(r, "alphabet")

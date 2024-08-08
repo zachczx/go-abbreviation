@@ -1,0 +1,31 @@
+package templates 
+
+
+templ DbPopulateFromJsonTemplate(msg [3]string) {
+    @Layout("Sync from Json") {
+          <main class="grid h-auto content-start justify-items-center lg:pb-10 pb-6 lg:pt-4">
+            <div class="h-full rounded-3xl border border-gray-200 bg-gray-50/70 backdrop-blur-md max-w-[60rem] w-full md:shadow-lg">
+              <section class="p-4 lg:p-8">
+              @Logo()
+              </section>
+              
+              <section class="space-y-8 min-h-[70vh]">
+                <div class="bg-primary/10 pt-8 pb-6 px-4 lg:px-8"><!-- pb-4 because there's some margins caused by rounded alphabets, pt-8 makes it right -->
+                  @FilterBar("")
+                  @Alphabets()
+                </div>
+                <ul id="list" class="scroller grid w-full overflow-auto text-xl lg:max-h-[70vh] px-2 lg:px-4 pb-4 xl:px-8">
+
+                  @Loader()
+                  for i := 0; i < len(msg); i++ {
+                      <li class="loaded-content hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2">
+                        {msg[i]}
+                      </li>
+                  }
+                </ul>
+              </section>
+            </div>
+          </main>
+
+      }
+  }

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -234,14 +235,14 @@ func DbRetrieveAlphabet(alphabet string) []models.AbvDb {
 	}
 	defer rows.Close()
 
-	var abbreviations []models.AbvDb
+	var abb []models.AbvDb
 
 	for rows.Next() {
 		var item models.AbvDb
 		if err := rows.Scan(&item.Short, &item.Long, &item.Initial, &item.Metaphone); err != nil {
 			log.Fatal(err)
 		}
-		abbreviations = append(abbreviations, item)
+		abb = append(abb, item)
 	}
 	if err = rows.Err(); err != nil {
 		log.Fatal(err)
@@ -250,10 +251,45 @@ func DbRetrieveAlphabet(alphabet string) []models.AbvDb {
 	timeEnd := time.Since(timeStart)
 	fmt.Println("Completed in: ", timeEnd)
 
-	return abbreviations
+	return abb
 }
 
-func DbPopulateFromJson() {
+func DbRetrieveAll(p int) []models.AbvDb {
+	timeStart := time.Now()
+	DbBase()
+	var q string = "SELECT * FROM abv ORDER BY short LIMIT 50 OFFSET ?"
+	var offset int = (p - 1) * 50
+	if p == 0 {
+		offset = 0
+		q = "SELECT * FROM abv ORDER BY short"
+	}
+
+	rows, err := db.Query(q, offset)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var abb []models.AbvDb
+
+	for rows.Next() {
+		var item models.AbvDb
+		if err := rows.Scan(&item.Short, &item.Long, &item.Initial, &item.Metaphone); err != nil {
+			log.Fatal(err)
+		}
+		abb = append(abb, item)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	timeEnd := time.Since(timeStart)
+	fmt.Println("Completed in: ", timeEnd)
+
+	return abb
+}
+
+func DbPopulateFromJson() (msg [3]string) {
 	timeStart := time.Now()
 
 	DbBase()
@@ -297,10 +333,10 @@ func DbPopulateFromJson() {
 			vals = append(vals, row.Short, row.Long, row.Initial, row.Metaphone)
 		}
 	}
-	fmt.Println(vals)
+	// fmt.Println(vals)
 	// Trim the last comma
 	sqlStr = sqlStr[0 : len(sqlStr)-1]
-	fmt.Println(sqlStr)
+	// fmt.Println(sqlStr)
 
 	// Manually created index
 	// Eventually settled on
@@ -313,15 +349,17 @@ func DbPopulateFromJson() {
 	//
 	// But for alphabet/initial fetching, helps. Up to 36% improvement (1.5188ms -> 976.9µs) for 'A'.
 
-	result, err := db.Exec(sqlStr, vals...)
+	res, err := db.Exec(sqlStr, vals...)
 	if err != nil {
 		fmt.Println("Error executing SQL str: ", err)
 	}
-
-	fmt.Println("Populated successfully!")
-	// fmt.Println(result)
-	_ = result // avoid the declared but not used
+	fmt.Println(res)
 
 	timeEnd := time.Since(timeStart)
 	fmt.Println("Completed in: ", timeEnd)
+	com := "Completed in: " + timeEnd.String()
+	numI := "No. of items: " + strconv.Itoa(len(abvData.List))
+	msg = [3]string{"Populated successfully!", com, numI}
+
+	return msg
 }
