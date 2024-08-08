@@ -1087,7 +1087,7 @@
 		{ "short": "STG", "long": "Sectoral Transformation Group" },
 		{
 			"short": "STRIDE",
-			"long": "Spoofing, Tampering, Repudiation, Information disclosure, Denial of Service, Elevation of Privilege"
+			"long": "Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege"
 		},
 		{ "short": "SUD", "long": "Senior User Dialogue" },
 		{ "short": "SUH", "long": "Smart Urban Habitat" },
@@ -1403,6 +1403,10 @@
 		{ "short": "NSPD", "long": "National Service Policy Department" },
 		{ "short": "MPPD", "long": "Manpower Policy Department" },
 		{ "short": "MCIO", "long": "MINDEF Chief Information Office" },
+		{ "short": "RIE", "long": "Research, Innovation and Enterprise" },
+		{ "short": "TL@NTU", "long": "Temasek Laboratories at NTU" },
+		{ "short": "NSCC", "long": "National Supercomputing Centre" },
+		{ "short": "HPC", "long": "High Performance Computing" },
 		{ "short": "QSMC", "long": "Quality Service Management Committee" },
 		{ "short": "GOM", "long": "General Orders of MINDEF" },
 		{ "short": "MTM", "long": "Moments that Matter" },

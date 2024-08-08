@@ -257,6 +257,14 @@ func DbPopulateFromJson() {
 	timeStart := time.Now()
 
 	DbBase()
+
+	// Delete all tables from DB
+	deleteQuery := "DELETE FROM abv;"
+	_, err := db.Exec(deleteQuery)
+	if err != nil {
+		fmt.Println("Error deleting during preparation: ", err)
+	}
+
 	jsonFileData, err := os.Open(jsonFile)
 	if err != nil {
 		fmt.Println("Error", err)
