@@ -27,8 +27,8 @@ templ ListAll(title string, abv []models.AbvDb, count string, keyword string) {
                 </li>
                 @Loader()
                 for i := 0; i < len(abv); i++ {
-                    <li class="loaded-content hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2" id={abv[i].Short}>
-                      <div class="col-span-1">{ abv[i].Short }<input type="hidden" value={abv[i].Initial} name="initial"></div>
+                    <li class="loaded-content hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2">
+                      <div class="col-span-1">{ abv[i].Short }</div>
                       <div class="col-span-2">{ abv[i].Long }</div>
                     </li>
                 }
@@ -58,8 +58,8 @@ templ ListFilteredResult(abv []models.AbvDb, count string) {
       </div>
     }
     for i := 0; i < len(abv); i++ {
-      <li class="loaded-content hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2" id={abv[i].Short}>
-        <div class="col-span-1">{ abv[i].Short }<input type="hidden" value={abv[i].Initial} name="initial"></div>
+      <li class="loaded-content hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2">
+        <div class="col-span-1">{ abv[i].Short }</div>
         <div class="col-span-2">{ abv[i].Long }</div>
       </li>
     }
