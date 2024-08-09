@@ -49,6 +49,10 @@ func ShowListJson(w http.ResponseWriter, r *http.Request) {
 func ShowListDb(w http.ResponseWriter, r *http.Request) {
 	// keyword := chi.URLParam(r, "keyword") //Only for file routing params
 	keyword := r.URL.Query().Get("q")
+	if keyword == "" {
+		fmt.Println("No keyword, redirecting to all")
+		http.Redirect(w, r, "/all/1", http.StatusSeeOther)
+	}
 	// fmt.Println(r.Header.Get("Hx-Request"))
 	results := DbRetrieveKeywordJaroWinker(keyword)
 	if r.Header.Get("Hx-Request") == "true" {
@@ -79,20 +83,41 @@ func ShowListDbAlphabets(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func ShowListDbAll(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/all/1", http.StatusSeeOther)
+}
+
+func ShowListDbSinglePage(w http.ResponseWriter, r *http.Request) {
+	results := DbRetrieveKeywordJaroWinker("")
+	if r.Header.Get("Hx-Request") == "true" {
+		fmt.Println("Hx request received, using filtered results")
+		TemplRender(w, r, templates.ListFilteredResult(results, strconv.Itoa(len(results))))
+	} else {
+		fmt.Println("Doing normal list")
+		TemplRender(w, r, templates.ListAll("Abbreviations", results, strconv.Itoa(len(results)), ""))
+	}
+}
+
+// Choosing not to use this, adding too much hassle to manage pagination
 func ShowListDbPagination(w http.ResponseWriter, r *http.Request) {
 	var p string = chi.URLParam(r, "p")
 	id, err := strconv.Atoi(p)
 	if err != nil {
 		fmt.Println(err)
 	}
-	res := DbRetrieveAll(id)
-	count := id * 50
-	fmt.Println(count)
+	res, count := DbRetrieveAll(id)
+	currentCount := id * 50
+	if currentCount > count {
+		currentCount = count
+	}
+	fmt.Println(currentCount)
 	var nextPage string = strconv.Itoa(id + 1)
-	if r.Header.Get("Hx-Request") == "true" && id > 1 {
-		TemplRender(w, r, templates.ListDbAllPartial(res, strconv.Itoa(count), nextPage))
+	if r.Header.Get("Hx-Request") == "true" {
+		TemplRender(w, r, templates.ListDbAllPartial(res, strconv.Itoa(count), strconv.Itoa(currentCount), nextPage))
+	} else if r.Header.Get("Hx-Request") == "true" && id > 1 {
+		TemplRender(w, r, templates.ListDbAllPartial(res, strconv.Itoa(count), strconv.Itoa(currentCount), nextPage))
 	} else {
-		TemplRender(w, r, templates.ListDbAll("Abbreviations", res, strconv.Itoa(len(res)), nextPage))
+		TemplRender(w, r, templates.ListDbAll("Abbreviations", res, strconv.Itoa(count), strconv.Itoa(len(res)), nextPage))
 	}
 }
 

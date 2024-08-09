@@ -2,7 +2,20 @@
 module.exports = {
 	content: ['./templates/*.{templ,txt}'],
 	theme: {
-		extend: {},
+		extend: {
+			animation: {
+				flash: "flashText 1s ease-out",
+			},
+			keyframes: {
+				flashText: {
+					"0%": {
+						color: "#44EEFF",
+						opacity: 0.1,
+					},
+					"100%": {color: "#394e6a"},
+				},
+			},
+		},
 	},
 	plugins: [require('daisyui')],
 	daisyui: {

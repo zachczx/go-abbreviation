@@ -254,9 +254,19 @@ func DbRetrieveAlphabet(alphabet string) []models.AbvDb {
 	return abb
 }
 
-func DbRetrieveAll(p int) []models.AbvDb {
+func DbRetrieveAll(p int) ([]models.AbvDb, int) {
 	timeStart := time.Now()
 	DbBase()
+
+	// Counting total number of entries.
+	var c int
+	res := db.QueryRow("SELECT COUNT(short) FROM abv")
+	err := res.Scan(&c)
+	if err != nil {
+		fmt.Println("Error getting row count: ", err)
+	}
+
+	// Fetching batches of 50 results.
 	var q string = "SELECT * FROM abv ORDER BY short LIMIT 50 OFFSET ?"
 	var offset int = (p - 1) * 50
 	if p == 0 {
@@ -286,7 +296,7 @@ func DbRetrieveAll(p int) []models.AbvDb {
 	timeEnd := time.Since(timeStart)
 	fmt.Println("Completed in: ", timeEnd)
 
-	return abb
+	return abb, c
 }
 
 func DbPopulateFromJson() (msg [3]string) {

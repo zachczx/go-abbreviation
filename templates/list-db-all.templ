@@ -1,0 +1,54 @@
+package templates
+
+import "go-abbreviation/models"
+
+templ ListDbAll(title string, abv []models.AbvDb, count string, currentCount string, nextPage string) {
+    @Layout(title) {
+      <main class="grid h-auto content-start justify-items-center lg:pb-10 pb-6 lg:pt-4">
+        <div class="h-full rounded-3xl border border-gray-200 bg-gray-50/70 backdrop-blur-md max-w-[60rem] w-full md:shadow-lg">
+          <section class="p-4 lg:p-8">
+          @Logo()
+          </section>
+          
+          <section class="space-y-8 min-h-[70vh]">
+            <div class="bg-primary/10 pt-8 pb-6 px-4 lg:px-8"><!-- pb-4 because there's some margins caused by rounded alphabets, pt-8 makes it right -->
+              @FilterBar("")
+              @Alphabets()
+            </div>
+            <ul id="list" class="scroller content-start grid w-full overflow-auto text-xl lg:min-h-96 lg:max-h-[70vh] px-2 lg:px-4 pb-4 xl:px-8">
+              <li class="grid grid-cols-3 p-2">
+                <div class="col-span-1 font-extrabold">Short</div>
+                <div class="col-span-2 flex">
+                  <span class="grow font-extrabold">Long</span>
+                  <span id="count" class="justify-end text-base items-end">{currentCount} of {count} results</span>
+                </div>
+              </li>
+              for i := 0; i < len(abv); i++ {
+                  <li class="hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2">
+                    <div class="col-span-1">{ abv[i].Short }</div>
+                    <div class="col-span-2">{ abv[i].Long }</div>
+                  </li>
+                  if i == (len(abv)-1){
+                    <span hx-get={"/all/" + nextPage } hx-trigger="intersect once" hx-swap="afterend"></span>
+                  }
+              }
+            </ul>
+          </section>
+        </div>
+      </main>
+    }
+  }
+  
+  templ ListDbAllPartial(abv []models.AbvDb, count string, currentCount string, nextPage string) {
+
+    for i := 0; i < len(abv); i++ {
+        <li class="animate-flash hover:bg-primary/70 hover:rounded-lg hover:text-base-100 grid grid-cols-3 border-t border-t-gray-300 p-2">
+          <div class="col-span-1">{ abv[i].Short }</div>
+          <div class="col-span-2">{ abv[i].Long }</div>
+        </li>
+        if i == (len(abv)-1){
+          <span hx-get={"/all/" + nextPage } hx-trigger="intersect once" hx-swap="afterend"></span>
+        }
+    }
+    <span id="count" hx-swap-oob="outerHTML:#count" class="justify-end text-base items-end">{currentCount} of {count} results</span>
+  }

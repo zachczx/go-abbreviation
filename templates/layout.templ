@@ -12,9 +12,6 @@ templ Layout(title string, children ...templ.Component) {
       <link href="/static/css/styles.css" rel="stylesheet" />
       <script src="/static/js/htmx.min.js"></script>
       <script src="/static/js/preload.min.js"></script>
-      <script>
-        let creditModal //declaring this here, otherwise it triggers identifier alr declared error
-      </script>
     </head>
     <body class="background-svg grid min-h-[100dvh] grid-rows-[auto_1fr_auto] overflow-x-hidden" hx-ext="preload">
       <header></header>
@@ -22,9 +19,10 @@ templ Layout(title string, children ...templ.Component) {
       <footer class="z-50 text-center text-sm justify-self-center overflow-x-hidden w-full bg-primary/70 backdrop-blur text-base-100 p-2">
         <p>Copyright © 2024 Zixian Chen. All rights reserved.</p>
         <div>
-          <a href="https://zixianchen.com" class="underline">Portfolio</a> | <a href="https://zixianchen.com/contact/" class="underline">Feedback</a> | <button id="credit-modal" class="underline" onclick="credit_modal.showModal()">Credits</button> | <button onclick="help_modal.showModal()" class="underline">Help!</button>
+          <a href="https://zixianchen.com" class="underline">Portfolio</a> | <a href="https://zixianchen.com/contact/" class="underline">Feedback</a> | <button id="credit-modal" class="underline" onclick="credit_modal.showModal()">Credits</button> | <button onclick="help_modal.showModal()" class="underline">Help</button>
         </div>
       </footer>
+
       @Modals()
     </body>
   </html>
@@ -56,8 +54,10 @@ templ Modals() {
   <dialog id="help_modal" class="modal">
     <div class="modal-box">
       <h2 class="text-4xl pb-6 font-bold text-primary">Help!</h2>
-      <h3 class="text-3xl font-bold py-2">Q: "View All" section doesn't load new results.</h3>
-      <p class="py-2">If the "All" menu doesn't load, <a href="/all/" class="underline">click here to view all the entire list</a> of abbreviations without pages/loading.</p><p>It's a long list, so you might to wait for the list to load.</p>
+      <h3 class="text-2xl font-bold py-2">Clicking "All" only gives 50 results.</h3>
+      <p class="py-2">Try scrolling down all the way, new results load when you're at the end.</p>
+      <p class="py-2">If nothing new loads, <a href="/all/single" class="underline">click here to view the entire list on a single page</a>.</p>
+      <p class="py-2">It's a long list, so you might to wait for the list to load.</p>
       <div class="modal-action">
         <form method="dialog">
           <button class="btn">Close</button>
